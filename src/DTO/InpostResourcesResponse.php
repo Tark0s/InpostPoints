@@ -58,4 +58,32 @@ class InpostResourcesResponse
     {
         $this->items = $items;
     }
+
+    public function filterByStreet(string $street): void
+    {
+        $filteredResources = [];
+
+        foreach ($this->getItems() as $point) {
+            if ($point->getAddress()->getStreet() === $street){
+                $filteredResources[] = $point;
+            }
+        }
+
+        $this->setCount(count($filteredResources));
+        $this->setItems($filteredResources);
+    }
+
+    public function filterByPostCode(string $postCode): void
+    {
+        $filteredResources = [];
+
+        foreach ($this->getItems() as $point) {
+            if ($point->getAddress()->getPostCode() === $postCode){
+                $filteredResources[] = $point;
+            }
+        }
+
+        $this->setCount(count($filteredResources));
+        $this->setItems($filteredResources);
+    }
 }

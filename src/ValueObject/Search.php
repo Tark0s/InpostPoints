@@ -3,26 +3,21 @@
 namespace App\ValueObject;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator as CustomAssert;
 
 class Search
 {
-    #[Assert\Length(min: 3, max: 64, groups: ['Default'])]
-    private ?string $street = null;
-
     #[Assert\NotBlank(message: 'City is required.')]
     #[Assert\Length(min: 3, max: 64)]
     private ?string $city = null;
 
+    #[Assert\Length(min: 3, max: 64, groups: ['Default'])]
+    private ?string $street = null;
+
     #[Assert\Regex(
         pattern: '/^\d{2}-\d{3}$/',
         message: 'The postal code must follow the format XX-XXX.',
-        groups: ['Default']
     )]
     private ?string $postalCode = null;
-
-    #[CustomAssert\StreetRequiresPostalCode]
-    private $validationTrigger;
 
     public function getStreet(): ?string
     {

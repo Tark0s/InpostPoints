@@ -23,13 +23,20 @@ class SearchController extends AbstractController
     #[Route('/', name: 'search')]
     public function search(Request $request): Response
     {
-        $address = new Search();
-        $form = $this->createForm(SearchFormType::class, $address);
+        $search = new Search();
+        $form = $this->createForm(SearchFormType::class, $search);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             try {
-                $pointsResponse = $this->inpostService->getInpostResources('points', $address->getCity());
+                $pointsResponse = $this->inpostService->getInpostResources(
+                    'points',
+                    $search->getCity(),
+                    $search->getStreet(),
+                    $search->getPostalCode()
+                );
             } catch (Exception) {
                 $this->addFlash('error', 'Error fetching data.');
 

@@ -24,6 +24,7 @@ class InpostService
         ?string $postCode = null
     ): ?InpostResourcesResponse
     {
+        $city = ucfirst(strtolower($city));
         $url = "https://api-shipx-pl.easypack24.net/v1/{$resources}?city={$city}";
 
         try {
@@ -32,8 +33,12 @@ class InpostService
 
             $resourcesResponse = $this->serializer->deserialize($data, InpostResourcesResponse::class, 'json');
 
-            if (null !== $street || null !== $postCode){
-                $resourcesResponse->filterByStreetAndPostCode($street, $postCode);
+            if (null !== $street){
+                $resourcesResponse->filterByStreet($street);
+            }
+
+            if (null !== $postCode){
+                $resourcesResponse->filterByPostCode($postCode);
             }
 
             return $resourcesResponse;
