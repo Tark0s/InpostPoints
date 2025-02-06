@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if points is defined and points %}
+        <h1>Points number: {{ points.items|length }}</h1>
+        <ul class="points-list">
+            {% for item in points.items %}
+                <li>Point {{ loop.index }}: {{ item.name }} - {{ item.address.street }} {{ item.address.buildingNumber }}, {{ item.address.postCode }} {{ item.address.city }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
